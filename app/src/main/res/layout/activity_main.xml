@@ -15,7 +15,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:text="Home"
-        android:textSize="48sp"
+        android:textSize="40sp"
         android:textStyle="bold" />
 
     <ScrollView

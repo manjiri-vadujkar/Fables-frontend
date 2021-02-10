@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fablesfrontend">
-        <activity android:name=".Profile"/>
+        <activity android:name=".Register"></activity>
+        <activity android:name=".Login" />
+        <activity android:name=".Profile" />
         <activity android:name=".Favorites" />
         <activity android:name=".Recommend" />
         <activity android:name=".Genre" />
