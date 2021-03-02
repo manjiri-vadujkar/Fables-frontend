@@ -37,4 +37,9 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation 'com.android.volley:volley:1.1.1'
+
+    def aws_version = "2.16.+"
+    implementation "com.amazonaws:aws-android-sdk-polly:$aws_version"
+    implementation "com.amazonaws:aws-android-sdk-mobile-client:$aws_version"
 }

@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Recommend">
+    tools:context=".SelectedGenre">
 
     <ListView
-        android:id="@+id/recommendListView"
+        android:id="@+id/selectedGenreListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="570dp"
         android:layout_below="@+id/activity_name"
-        android:layout_above="@+id/nav_view" />
+        android:layout_above="@id/nav_view"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
@@ -34,8 +33,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Recommendations"
+        android:textStyle="bold"
         android:textSize="40sp"
-        android:textStyle="bold" />
+        android:text="Selected Genre" />
 
 </RelativeLayout>

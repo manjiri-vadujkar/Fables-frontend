@@ -12,8 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="570dp"
         android:layout_below="@+id/activity_name"
-        android:divider="@android:drawable/divider_horizontal_bright"
-        android:dividerHeight="@dimen/activity_horizontal_margin"/>
+        android:layout_above="@id/nav_view"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"

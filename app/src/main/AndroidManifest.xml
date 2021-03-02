@@ -8,8 +8,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Fablesfrontend">
-        <activity android:name=".Register"></activity>
+        android:theme="@style/Theme.Fablesfrontend"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".SelectedChapter"></activity>
+        <activity android:name=".SelectedBook" />
+        <activity android:name=".SelectedGenre" />
+        <activity android:name=".Register" />
         <activity android:name=".Login" />
         <activity android:name=".Profile" />
         <activity android:name=".Favorites" />
@@ -25,5 +29,8 @@
             </intent-filter>
         </activity>
     </application>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

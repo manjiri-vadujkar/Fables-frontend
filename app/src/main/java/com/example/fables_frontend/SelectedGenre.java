@@ -3,13 +3,15 @@ package com.example.fables_frontend;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,64 +36,52 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.fables_frontend.Login.MY_PREFS_NAME;
-import static com.example.fables_frontend.Login.shareToken;
 
-public class MainActivity extends AppCompatActivity {
+public class SelectedGenre extends AppCompatActivity {
 
     RequestQueue queue;
     String url;
     BottomNavigationView navView;
-    //Intent intent;
-    Intent loginIntent;
-    TextView grid0;
-    TextView grid1;
-    TextView grid2;
-    TextView grid3;
-    TextView grid4;
-    TextView grid5;
-    TextView grid6;
+    ListView selectedGList;
+    TextView activityTitle;
+    Intent i;
+    ArrayList<String> bookArray;
+    ArrayList<Integer> bookIds;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_selected_genre);
 
-        //Initialise Navbar
+        //Initialise all elements
         navView = findViewById(R.id.nav_view);
-        loginIntent = getIntent();
-        grid0 = findViewById(R.id.grid0);
-        grid1 = findViewById(R.id.grid1);
-        grid2 = findViewById(R.id.grid2);
-        grid3 = findViewById(R.id.grid3);
-        grid4 = findViewById(R.id.grid4);
-        grid5 = findViewById(R.id.grid5);
-        grid6 = findViewById(R.id.grid6);
+        selectedGList = findViewById(R.id.selectedGenreListView);
+        activityTitle = findViewById(R.id.activity_name);
+        i = getIntent();
+
+        //activity name
+            //Log.i("Its us", i.getStringExtra("selectedGenre"));
+        activityTitle.setText(i.getStringExtra("selectedGenre"));
 
         //Call functions
-        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        String token = prefs.getString("token", "");
-        Log.i("Login token", "token = " + token);
-        if(!token.isEmpty()){
-            try {
-                setupVolley();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            navigation();
-            getHomePage();
-        }else {
-            startActivity(new Intent(getApplicationContext(), Login.class));
+        try {
+            setupVolley();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
+        navigation();
+        selectedGenreList();
     }
 
     public void setupVolley() throws UnsupportedEncodingException {
         queue = Volley.newRequestQueue(this);
-        url = "http://10.0.2.2:4000/api/books/?limit=" + "7"; //replace localhost with 10.0.2.2
+        url = "http://10.0.2.2:4000/api/books/?genre=" + URLEncoder.encode(i.getStringExtra("selectedGenre"), StandardCharsets.UTF_8.toString()); //replace localhost with 10.0.2.2
     }
 
     public void navigation() {
-        //Set Home selected
-        navView.setSelectedItemId(R.id.navigation_home);
+        //Set selected activity
+        navView.setSelectedItemId(R.id.navigation_genre);
 
         //perform ItemSelectedListener
         navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -99,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        overridePendingTransition(0,0);
                         return true;
 
                     case R.id.navigation_genre:
@@ -126,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void getHomePage(){
+    public void selectedGenreList() {
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         String token = prefs.getString("token", "");
 
@@ -138,17 +130,37 @@ public class MainActivity extends AppCompatActivity {
                             public void onResponse(JSONObject response) {
                                 Log.i("Response ", response.toString());
                                 try {
-                                    grid0.setText(response.getJSONArray("data").getJSONObject(0).getString("bookname"));
-                                    grid1.setText(response.getJSONArray("data").getJSONObject(1).getString("bookname"));
-                                    grid2.setText(response.getJSONArray("data").getJSONObject(2).getString("bookname"));
-                                    grid3.setText(response.getJSONArray("data").getJSONObject(3).getString("bookname"));
-                                    grid4.setText(response.getJSONArray("data").getJSONObject(4).getString("bookname"));
-                                    grid5.setText(response.getJSONArray("data").getJSONObject(5).getString("bookname"));
-                                    grid6.setText(response.getJSONArray("data").getJSONObject(6).getString("bookname"));
+                                    JSONArray dataArray = response.getJSONArray("data");
+                                    //List for ListView
+                                    bookArray = new ArrayList<>();
+                                    bookIds = new ArrayList<Integer>();
+                                    for (int i=0;i<dataArray.length();i++){
+                                        bookIds.add(dataArray.getJSONObject(i).getInt("bookId"));
+                                        bookArray.add(dataArray.getJSONObject(i).getString("bookname"));
+                                    }
 
+                                    //Adapter to render the arrayList into the ListView
+                                    ArrayAdapter<String> bookAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.select_dialog_item, bookArray);
+
+                                    //set the adapter to listView
+                                    selectedGList.setAdapter(bookAdapter);
+
+                                    //OnClick Listener
+                                    selectedGList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(AdapterView<?> genreAdapter, View view, int position, long id) {
+                                            //in our onItemClick method int position specifies the position of item clicked thus using that we can "get" an array item from that position
+                                            Intent intent = new Intent(getApplicationContext(), SelectedBook.class);
+                                            intent.putExtra("selectedBook", bookArray.get(position).toString());
+                                            intent.putExtra("bookId", bookIds.get(position));
+                                            startActivity(intent);
+                                            //Toast.makeText(getApplicationContext(), bookArray.get(position).toString(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
+
                             }
                         }, new Response.ErrorListener() {
                     @Override
@@ -159,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.i("RequestError", error.toString());
                         }
                         else {
-                            Toast.makeText(MainActivity.this, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SelectedGenre.this, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
                         }
                     }
                 })
@@ -174,13 +186,5 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         queue.add(jsonObjectRequest);
-    }
-
-    public void selectBook() {
-
-    }
-
-    public void viewAllBooks() {
-
     }
 }

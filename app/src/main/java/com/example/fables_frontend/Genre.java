@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,7 +37,7 @@ public class Genre extends AppCompatActivity {
     }
 
     public void navigation() {
-        //Set Home selected
+        //Set selected activity
         navView.setSelectedItemId(R.id.navigation_genre);
 
         //perform ItemSelectedListener
@@ -75,9 +76,9 @@ public class Genre extends AppCompatActivity {
     public void genreList() {
         //List for ListView
         ArrayList<String> genreArray = new ArrayList<>();
-        genreArray.add("Children's");
+        genreArray.add("Children");
         genreArray.add("Crime & Mystery");
-        genreArray.add("Action & Adventure");
+        genreArray.add("Adventure");
         genreArray.add("Science Fiction");
         genreArray.add("Horror");
 
@@ -92,7 +93,12 @@ public class Genre extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> genreAdapter, View view, int position, long id) {
                 //in our onItemClick method int position specifies the position of item clicked thus using that we can "get" an array item from that position
-                Toast.makeText(getApplicationContext(), genreArray.get(position).toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), genreArray.get(position).toString(), Toast.LENGTH_SHORT).show();
+                Log.i("ts us",genreArray.get(position));
+                Intent intent = new Intent(getApplicationContext(), SelectedGenre.class);
+                intent.putExtra("selectedGenre", genreArray.get(position));
+                startActivity(intent);
+                overridePendingTransition(0,0);
             }
         });
     }
