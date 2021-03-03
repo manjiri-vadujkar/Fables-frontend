@@ -128,7 +128,6 @@ public class SelectedGenre extends AppCompatActivity {
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                Log.i("Response ", response.toString());
                                 try {
                                     JSONArray dataArray = response.getJSONArray("data");
                                     //List for ListView

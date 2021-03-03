@@ -9,8 +9,6 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,7 +38,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -219,7 +216,6 @@ public class SelectedChapter extends AppCompatActivity {
 
         DescribeVoicesResult describeVoicesResult = client.describeVoices(describeVoicesRequest);
         voices = describeVoicesResult.getVoices();
-        Log.i("Voices", voices.get(26).toString());
     }
 
     public void getURL(String text){
@@ -230,6 +226,8 @@ public class SelectedChapter extends AppCompatActivity {
                         .withText(text)
                         // Select voice for synthesis.
                         .withVoiceId(voices.get(26).getId()) // "Aditi"
+                        //language code
+                        //.withLanguageCode("hi-IN")
                         // Set format to MP3.
                         .withOutputFormat(OutputFormat.Mp3);
         // Get the presigned URL for synthesized speech audio stream.

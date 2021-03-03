@@ -55,7 +55,6 @@ public class Login extends AppCompatActivity {
             loginObj = new JSONObject();
             loginObj.put("email", email.getText());
             loginObj.put("password", password.getText());
-            //Log.i("JSONObj", String.valueOf(loginObj));
         } catch (JSONException e) {
             Log.i("Error", String.valueOf(e));
         }
@@ -73,7 +72,6 @@ public class Login extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.i("shareToken", shareToken());
                         SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
                         editor.putString("token", token);
                         editor.apply();
@@ -88,10 +86,6 @@ public class Login extends AppCompatActivity {
             }
         });
         queue.add(jsonObjectRequest);
-    }
-
-    public static String shareToken(){
-        return token;
     }
 
     //Guide new user to register activity

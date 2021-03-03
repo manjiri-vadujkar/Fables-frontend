@@ -52,7 +52,6 @@ public class Register extends AppCompatActivity {
             registerObj.put("name", name.getText());
             registerObj.put("email", email.getText());
             registerObj.put("password", password.getText());
-            Log.i("JSONObj", String.valueOf(registerObj));
         } catch (JSONException e) {
             Log.i("Error", String.valueOf(e));
         }

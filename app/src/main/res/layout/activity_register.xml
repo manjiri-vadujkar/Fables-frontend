@@ -7,6 +7,108 @@
     android:layout_height="match_parent"
     tools:context=".Register">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activity_name">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/nameLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginRight="8dp"
+                android:textSize="32sp"
+                android:text="Name:"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nameLabel"
+                android:layout_margin="8dp"
+                android:textSize="32sp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/emailLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:textSize="32sp"
+                android:text="Email:"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/emailLabel"
+                android:layout_margin="8dp"
+                android:textSize="32sp"
+                android:layout_weight="1"
+                android:inputType="textEmailAddress"/>
+
+            <TextView
+                android:id="@+id/passwordLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/email"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:textSize="32sp"
+                android:text="Password:"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/passwordLabel"
+                android:layout_margin="8dp"
+                android:textSize="32sp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPassword"/>
+
+            <Button
+                android:id="@+id/login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/password"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="16dp"
+                android:onClick="register"
+                android:text="Register" />
+
+            <TextView
+                android:id="@+id/registerOption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/login"
+                android:layout_centerHorizontal="true"
+                android:textSize="18sp"
+                android:layout_margin="16dp"
+                android:onClick="loginActivity"
+                android:text="Already registered? Click here to login" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
     <TextView
         android:id="@+id/activity_name"
         android:layout_width="wrap_content"
@@ -16,97 +118,5 @@
         android:textSize="40sp"
         android:textStyle="bold"
         android:text="Register" />
-
-    <TextView
-        android:id="@+id/nameLabel"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/activity_name"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="8dp"
-        android:textSize="32sp"
-        android:text="Name:"
-        android:layout_weight="1"/>
-
-    <EditText
-        android:id="@+id/name"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/nameLabel"
-        android:layout_margin="8dp"
-        android:textSize="32sp"
-        android:layout_weight="1"/>
-
-
-    <TextView
-        android:id="@+id/emailLabel"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/name"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:textSize="32sp"
-        android:text="Email:"
-        android:layout_weight="1"/>
-
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/emailLabel"
-        android:layout_margin="8dp"
-        android:textSize="32sp"
-        android:layout_weight="1"
-        android:inputType="textEmailAddress"/>
-
-
-    <TextView
-        android:id="@+id/passwordLabel"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/email"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:textSize="32sp"
-        android:text="Password:"
-        android:layout_weight="1"/>
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/passwordLabel"
-        android:layout_margin="8dp"
-        android:textSize="32sp"
-        android:layout_weight="1"
-        android:ems="10"
-        android:inputType="textPassword"/>
-
-    <Button
-        android:id="@+id/login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/password"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="16dp"
-        android:onClick="register"
-        android:text="Register" />
-
-    <TextView
-        android:id="@+id/registerOption"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/login"
-        android:layout_centerHorizontal="true"
-        android:textSize="18sp"
-        android:layout_margin="16dp"
-        android:onClick="loginActivity"
-        android:text="Already registered? Click here to login" />
 
 </RelativeLayout>

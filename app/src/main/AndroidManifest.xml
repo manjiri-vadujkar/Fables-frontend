@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Fablesfrontend"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SelectedChapter"></activity>
+        <activity android:name=".AllBooks"></activity>
+        <activity android:name=".SelectedChapter" />
         <activity android:name=".SelectedBook" />
         <activity android:name=".SelectedGenre" />
         <activity android:name=".Register" />
@@ -29,8 +30,8 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

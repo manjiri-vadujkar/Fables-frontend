@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -93,8 +92,6 @@ public class Genre extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> genreAdapter, View view, int position, long id) {
                 //in our onItemClick method int position specifies the position of item clicked thus using that we can "get" an array item from that position
-                //Toast.makeText(getApplicationContext(), genreArray.get(position).toString(), Toast.LENGTH_SHORT).show();
-                Log.i("ts us",genreArray.get(position));
                 Intent intent = new Intent(getApplicationContext(), SelectedGenre.class);
                 intent.putExtra("selectedGenre", genreArray.get(position));
                 startActivity(intent);

@@ -12,8 +12,8 @@
 
     <item
         android:id="@+id/navigation_recommend"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="Recommendations" />
+        android:icon="@android:drawable/btn_star"
+        android:title="Read" />
 
     <item
         android:id="@+id/navigation_favorites"
@@ -24,5 +24,13 @@
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_baseline_account_circle_24"
         android:title="Profile" />
+
+    <!-- Our invisible item -->
+
+<!--    <item-->
+<!--        android:id="@+id/navigation_invisible"-->
+<!--        android:icon="@drawable/ic_launcher_foreground"-->
+<!--        android:title="Invisible"-->
+<!--        android:visible="false" />-->
 
 </menu>

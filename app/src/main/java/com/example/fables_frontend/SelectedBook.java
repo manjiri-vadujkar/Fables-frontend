@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +25,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,6 +41,8 @@ public class SelectedBook extends AppCompatActivity {
 
     RequestQueue queue;
     String url;
+    String token;
+    JSONObject data;
     BottomNavigationView navView;
     TextView activityTitle;
     TextView authorName;
@@ -49,6 +51,8 @@ public class SelectedBook extends AppCompatActivity {
     Intent i;
     ArrayList<String> chapterArray;
     ListView chapterListView;
+    Button read;
+    Button fav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,8 @@ public class SelectedBook extends AppCompatActivity {
         authorName = findViewById(R.id.authorName);
         genre = findViewById(R.id.genreName);
         summary = findViewById(R.id.summary);
+        read = findViewById(R.id.read);
+        fav = findViewById(R.id.fav);
         i = getIntent();
 
         activityTitle.setText(i.getStringExtra("selectedBook"));
@@ -122,7 +128,7 @@ public class SelectedBook extends AppCompatActivity {
 
     public void bookDetails() {
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        String token = prefs.getString("token", "");
+         token = prefs.getString("token", "");
 
         //Books Request
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
@@ -130,13 +136,26 @@ public class SelectedBook extends AppCompatActivity {
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                Log.i("Response ", response.toString());
                                 chapterArray = new ArrayList<String>();
                                 try {
-                                    JSONObject data = response.getJSONObject("data");
+                                    data = response.getJSONObject("data");
 
-                                    authorName.setText("Author: " + data.getString("author"));
-                                    genre.setText("Genre: " + data.getString("genre"));
+                                    if(data.getString("read").equals("true")){
+                                        read.setEnabled(false);
+                                    }
+
+                                    if(data.getString("favourite").equals("true")) {
+                                        fav.setText(R.string.newFavText);
+                                    }
+                                    else {
+                                        fav.setText(R.string.favText);
+                                    }
+
+                                    String authorString = "Author: " + data.getString("author");
+                                    String genreString = "Genre: " + data.getString("genre");
+
+                                    authorName.setText(authorString);
+                                    genre.setText(genreString);
                                     summary.setText(response.getJSONObject("data").getString("summary"));
 
                                     for(int i=0;i<data.getJSONArray("chapters").length();i++) {
@@ -188,5 +207,112 @@ public class SelectedBook extends AppCompatActivity {
             }
         };
         queue.add(jsonObjectRequest);
+    }
+
+    public void addToUserRead(View view) throws UnsupportedEncodingException {
+        String addToReadUrl = "http://10.0.2.2:4000/api/books/read" + "/" + URLEncoder.encode(String.valueOf(i.getIntExtra("bookId", 999)), StandardCharsets.UTF_8.toString());
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, addToReadUrl, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                view.setEnabled(false);
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+                        Log.i("Error: ", error.toString());
+                        if(error.toString().equals("com.android.volley.AuthFailureError")){
+                            Log.i("RequestError", error.toString());
+                        }
+                        else {
+                            Toast.makeText(SelectedBook.this, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+        {
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                String headerToken = "Bearer "+ token;
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", headerToken);
+                return headers;
+            }
+        };
+        queue.add(jsonObjectRequest);
+    }
+
+    public void favorite(View view) throws JSONException, UnsupportedEncodingException {
+        String favUrl = "http://10.0.2.2:4000/api/books/fav" + "/" + URLEncoder.encode(String.valueOf(i.getIntExtra("bookId", 999)), StandardCharsets.UTF_8.toString());
+        if(data.getString("favourite").equals("false")){
+            Log.i("Favorite", "Already a favorite");
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                    (Request.Method.POST, favUrl, null,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    bookDetails();
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // TODO: Handle error
+                            Log.i("Error: ", error.toString());
+                            if(error.toString().equals("com.android.volley.AuthFailureError")){
+                                Log.i("RequestError", error.toString());
+                            }
+                            else {
+                                Toast.makeText(SelectedBook.this, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+            {
+                @Override
+                public Map getHeaders() throws AuthFailureError {
+                    String headerToken = "Bearer "+ token;
+                    HashMap headers = new HashMap();
+                    headers.put("Content-Type", "application/json");
+                    headers.put("Authorization", headerToken);
+                    return headers;
+                }
+            };
+            queue.add(jsonObjectRequest);
+        }
+        else {
+            Log.i("Favorite", "Not a favorite");
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                    (Request.Method.DELETE, favUrl, null,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    bookDetails();
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // TODO: Handle error
+                            Log.i("Error: ", error.toString());
+                            if(error.toString().equals("com.android.volley.AuthFailureError")){
+                                Log.i("RequestError", error.toString());
+                            }
+                            else {
+                                Toast.makeText(SelectedBook.this, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+            {
+                @Override
+                public Map getHeaders() throws AuthFailureError {
+                    String headerToken = "Bearer "+ token;
+                    HashMap headers = new HashMap();
+                    headers.put("Content-Type", "application/json");
+                    headers.put("Authorization", headerToken);
+                    return headers;
+                }
+            };
+            queue.add(jsonObjectRequest);
+        }
     }
 }

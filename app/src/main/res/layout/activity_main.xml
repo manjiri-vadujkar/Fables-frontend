@@ -40,7 +40,9 @@
                 android:padding="10dp"
                 android:text="Book Name --Author"
                 android:textSize="32sp"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:tag=""
+                android:onClick="selectBook"/>
 
             <TextView
                 android:id="@+id/grid1"
@@ -51,7 +53,9 @@
                 android:padding="10dp"
                 android:text="Book Name --Author"
                 android:textSize="32sp"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:tag=""
+                android:onClick="selectBook"/>
 
             <TextView
                 android:id="@+id/grid2"
@@ -62,7 +66,9 @@
                 android:padding="10dp"
                 android:text="Book Name --Author"
                 android:textSize="32sp"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:tag=""
+                android:onClick="selectBook"/>
 
             <TextView
                 android:id="@+id/grid3"
@@ -73,7 +79,9 @@
                 android:padding="10dp"
                 android:text="Book Name --Author"
                 android:textSize="32sp"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:tag=""
+                android:onClick="selectBook"/>
 
             <TextView
                 android:id="@+id/grid4"
@@ -84,7 +92,9 @@
                 android:padding="10dp"
                 android:text="Book Name --Author"
                 android:textSize="32sp"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:tag=""
+                android:onClick="selectBook"/>
 
             <TextView
                 android:id="@+id/grid5"
@@ -95,7 +105,9 @@
                 android:padding="10dp"
                 android:text="Book Name --Author"
                 android:textSize="32sp"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:tag=""
+                android:onClick="selectBook"/>
 
             <TextView
                 android:id="@+id/grid6"
@@ -106,7 +118,9 @@
                 android:padding="10dp"
                 android:text="Book Name --Author"
                 android:textSize="32sp"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:tag=""
+                android:onClick="selectBook"/>
 
             <TextView
                 android:id="@+id/grid7"
@@ -117,7 +131,8 @@
                 android:padding="10dp"
                 android:text="View all books"
                 android:textSize="32sp"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:onClick="viewAllBooks"/>
         </GridLayout>
     </ScrollView>
 

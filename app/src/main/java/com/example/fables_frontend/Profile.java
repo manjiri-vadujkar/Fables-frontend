@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -30,7 +29,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.fables_frontend.Login.MY_PREFS_NAME;
-import static com.example.fables_frontend.Login.token;
 
 public class Profile extends AppCompatActivity {
 

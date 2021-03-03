@@ -100,9 +100,10 @@
                     android:layout_centerVertical="true"
                     android:layout_alignParentLeft="true"
                     android:padding="8dp"
-                    android:text="Favorite"
+                    android:text="Add to &#10;Favorite"
                     android:textSize="24sp"
-                    android:layout_alignParentStart="true" />
+                    android:layout_alignParentStart="true"
+                    android:onClick="favorite"/>
 
                 <Button
                     android:id="@+id/read"
@@ -111,9 +112,10 @@
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
                     android:padding="8dp"
-                    android:text="Mark as Read"
+                    android:text="Mark &#10;as Read"
                     android:textSize="24sp"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_alignParentEnd="true"
+                    android:onClick="addToUserRead"/>
             </RelativeLayout>
 
             <ListView
