@@ -65,7 +65,7 @@ public class Profile extends AppCompatActivity {
 
     public void setupVolley() {
         queue = Volley.newRequestQueue(this);
-        url = "http://10.0.2.2:4000/api/user/"; //replace localhost with 10.0.2.2
+        url = "http://ec2-65-0-74-93.ap-south-1.compute.amazonaws.com/api/user/"; //replace localhost with 10.0.2.2
     }
 
     public void navigation() {

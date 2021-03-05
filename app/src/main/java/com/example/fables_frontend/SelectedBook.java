@@ -84,7 +84,7 @@ public class SelectedBook extends AppCompatActivity {
 
     public void setupVolley() throws UnsupportedEncodingException {
         queue = Volley.newRequestQueue(this);
-        url = "http://10.0.2.2:4000/api/books/" + URLEncoder.encode(String.valueOf(i.getIntExtra("bookId", 999)), StandardCharsets.UTF_8.toString()); //replace localhost with 10.0.2.2
+        url = "http://ec2-65-0-74-93.ap-south-1.compute.amazonaws.com/api/books/" + URLEncoder.encode(String.valueOf(i.getIntExtra("bookId", 999)), StandardCharsets.UTF_8.toString()); //replace localhost with 10.0.2.2
     }
 
     public void navigation() {
@@ -210,7 +210,7 @@ public class SelectedBook extends AppCompatActivity {
     }
 
     public void addToUserRead(View view) throws UnsupportedEncodingException {
-        String addToReadUrl = "http://10.0.2.2:4000/api/books/read" + "/" + URLEncoder.encode(String.valueOf(i.getIntExtra("bookId", 999)), StandardCharsets.UTF_8.toString());
+        String addToReadUrl = "http://ec2-65-0-74-93.ap-south-1.compute.amazonaws.com/api/books/read" + "/" + URLEncoder.encode(String.valueOf(i.getIntExtra("bookId", 999)), StandardCharsets.UTF_8.toString());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.POST, addToReadUrl, null,
                         new Response.Listener<JSONObject>() {
@@ -245,7 +245,7 @@ public class SelectedBook extends AppCompatActivity {
     }
 
     public void favorite(View view) throws JSONException, UnsupportedEncodingException {
-        String favUrl = "http://10.0.2.2:4000/api/books/fav" + "/" + URLEncoder.encode(String.valueOf(i.getIntExtra("bookId", 999)), StandardCharsets.UTF_8.toString());
+        String favUrl = "http://ec2-65-0-74-93.ap-south-1.compute.amazonaws.com/api/books/fav" + "/" + URLEncoder.encode(String.valueOf(i.getIntExtra("bookId", 999)), StandardCharsets.UTF_8.toString());
         if(data.getString("favourite").equals("false")){
             Log.i("Favorite", "Already a favorite");
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest

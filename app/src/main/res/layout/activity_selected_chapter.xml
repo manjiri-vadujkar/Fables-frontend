@@ -49,6 +49,7 @@
             android:layout_alignParentLeft="true"
             android:padding="8dp"
             android:text="Play"
+            android:enabled="false"
             android:onClick="play"/>
 
         <Button
@@ -59,6 +60,7 @@
             android:layout_alignParentRight="true"
             android:padding="8dp"
             android:text="Pause"
+            android:enabled="false"
             android:onClick="pause"/>
 
     </RelativeLayout>

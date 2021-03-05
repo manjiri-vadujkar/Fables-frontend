@@ -61,7 +61,6 @@ public class SelectedGenre extends AppCompatActivity {
         i = getIntent();
 
         //activity name
-            //Log.i("Its us", i.getStringExtra("selectedGenre"));
         activityTitle.setText(i.getStringExtra("selectedGenre"));
 
         //Call functions
@@ -76,7 +75,7 @@ public class SelectedGenre extends AppCompatActivity {
 
     public void setupVolley() throws UnsupportedEncodingException {
         queue = Volley.newRequestQueue(this);
-        url = "http://10.0.2.2:4000/api/books/?genre=" + URLEncoder.encode(i.getStringExtra("selectedGenre"), StandardCharsets.UTF_8.toString()); //replace localhost with 10.0.2.2
+        url = "http://ec2-65-0-74-93.ap-south-1.compute.amazonaws.com/api/books/?genre=" + URLEncoder.encode(i.getStringExtra("selectedGenre"), StandardCharsets.UTF_8.toString()); //replace localhost with 10.0.2.2
     }
 
     public void navigation() {

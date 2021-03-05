@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Fables-frontend</string>
+    <string name="app_name">Fables</string>
     <string name="read">Read</string>
     <string name="choose_voice">Choose a voice</string>
     <string name="favText">Add to\nFavorites</string>

@@ -98,7 +98,7 @@ public class SelectedChapter extends AppCompatActivity {
 
     public void setupVolley() throws UnsupportedEncodingException {
         queue = Volley.newRequestQueue(this);
-        url = "http://10.0.2.2:4000/api/books/"
+        url = "http://ec2-65-0-74-93.ap-south-1.compute.amazonaws.com/api/books/"
                 + URLEncoder.encode(String.valueOf(i.getIntExtra("sentBookId", 999)), StandardCharsets.UTF_8.toString())
                 + "/chapter/"
                 + URLEncoder.encode(String.valueOf(i.getStringExtra("selectedChpt")), StandardCharsets.UTF_8.toString()); //replace localhost with 10.0.2.2
@@ -159,6 +159,7 @@ public class SelectedChapter extends AppCompatActivity {
                                     String chptText = chapterText.getText().toString();
                                     getURL(chptText);
                                     playSpeech();
+                                    playBtn.setEnabled(true);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -272,12 +273,29 @@ public class SelectedChapter extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(mediaPlayer != null && mediaPlayer.isPlaying())
+        {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }else
+        {
+            Log.i("onBackPressed", "Mediaplayer was not running");
+        }
+    }
+
     public void play(View view) {
         mediaPlayer.start();
+        playBtn.setEnabled(false);
+        pauseBtn.setEnabled(true);
     }
 
     public void pause(View view) {
         mediaPlayer.pause();
+        pauseBtn.setEnabled(false);
+        playBtn.setEnabled(true);
     }
 
 }
