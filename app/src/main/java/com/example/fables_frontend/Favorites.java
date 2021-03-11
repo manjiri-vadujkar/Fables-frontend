@@ -121,7 +121,7 @@ public class Favorites extends AppCompatActivity {
                                     }
 
                                     //Adapter to render the arrayList into the ListView
-                                    ArrayAdapter<String> favAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.select_dialog_item, favList);
+                                    ArrayAdapter<String> favAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.list_black_text, R.id.list_content, favList);
 
                                     //set the adapter to listView
                                     fList.setAdapter(favAdapter);

@@ -82,7 +82,7 @@ public class Genre extends AppCompatActivity {
         genreArray.add("Horror");
 
         //Adapter to render the arrayList into the ListView
-        ArrayAdapter<String> genreAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.select_dialog_item, genreArray);
+        ArrayAdapter<String> genreAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.list_black_text, R.id.list_content, genreArray);
 
         //set the adapter to listView
         gList.setAdapter(genreAdapter);

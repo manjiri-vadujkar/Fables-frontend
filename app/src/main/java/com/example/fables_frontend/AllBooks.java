@@ -129,7 +129,7 @@ public class AllBooks extends AppCompatActivity {
                                     }
 
                                     //Adapter to render the arrayList into the ListView
-                                    ArrayAdapter<String> bookAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.select_dialog_item, bookArray);
+                                    ArrayAdapter<String> bookAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.list_black_text, R.id.list_content, bookArray);
 
                                     //set the adapter to listView
                                     allBooksList.setAdapter(bookAdapter);

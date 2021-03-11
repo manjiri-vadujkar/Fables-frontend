@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         //Call functions
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         String token = prefs.getString("token", "");
-        Log.i("Login token", "token = " + token);
+        //Log.i("Login token", "token = " + token);
         if(!token.isEmpty()){
             try {
                 setupVolley();

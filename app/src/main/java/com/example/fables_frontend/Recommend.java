@@ -124,7 +124,7 @@ public class Recommend extends AppCompatActivity {
                                     }
 
                                     //Adapter to render the arrayList into the ListView
-                                    ArrayAdapter<String> readAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.select_dialog_item, readList);
+                                    ArrayAdapter<String> readAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.list_black_text, R.id.list_content, readList);
 
                                     //set the adapter to listView
                                     rList.setAdapter(readAdapter);

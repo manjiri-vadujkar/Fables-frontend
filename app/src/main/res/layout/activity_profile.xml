@@ -77,7 +77,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/subscriptionStatus"
                 android:layout_margin="16dp"
-                android:text="Renew Subscription" />
+                android:onClick="getSubs"
+                android:text="Get Subscription via UPI" />
 
             <Button
                 android:id="@+id/logout"
