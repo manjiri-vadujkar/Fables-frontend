@@ -2,6 +2,6 @@
     <string name="app_name">Fables</string>
     <string name="read">Read</string>
     <string name="choose_voice">Choose a voice</string>
-    <string name="favText">Add to\nFavorites</string>
-    <string name="newFavText">Remove from\nFavorites</string>
+    <string name="favText">Add\nFavorite</string>
+    <string name="newFavText">Remove\nFavorite</string>
 </resources>

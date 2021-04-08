@@ -77,8 +77,19 @@
                 android:text="Book Type: "/>
 
             <TextView
-                android:id="@+id/summaryTitle"
+                android:id="@+id/bookRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/type"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:padding="8dp"
+                android:textSize="32sp"
+                android:text="Book Rating: "/>
+
+            <TextView
+                android:id="@+id/summaryTitle"
+                android:layout_below="@+id/bookRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -125,8 +136,7 @@
                     android:padding="8dp"
                     android:text="Mark &#10;as Read"
                     android:textSize="24sp"
-                    android:layout_alignParentEnd="true"
-                    android:onClick="addToUserRead"/>
+                    android:layout_alignParentEnd="true" />
             </RelativeLayout>
 
             <ListView

@@ -3,16 +3,21 @@ package com.example.fables_frontend;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +54,7 @@ public class SelectedBook extends AppCompatActivity {
     TextView genre;
     TextView summary;
     TextView bookType;
+    TextView bookRating;
     Intent i;
     ArrayList<String> chapterArray;
     ListView chapterListView;
@@ -69,6 +75,7 @@ public class SelectedBook extends AppCompatActivity {
         genre = findViewById(R.id.genreName);
         summary = findViewById(R.id.summary);
         bookType = findViewById(R.id.type);
+        bookRating = findViewById(R.id.bookRating);
         read = findViewById(R.id.read);
         fav = findViewById(R.id.fav);
         i = getIntent();
@@ -83,6 +90,7 @@ public class SelectedBook extends AppCompatActivity {
             e.printStackTrace();
         }
         bookDetails();
+        ratingDialog();
     }
 
     public void setupVolley() throws UnsupportedEncodingException {
@@ -139,6 +147,7 @@ public class SelectedBook extends AppCompatActivity {
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
+                                Log.i("Bookdetails", response.toString());
                                 chapterArray = new ArrayList<String>();
                                 String type;
                                 try {
@@ -165,11 +174,24 @@ public class SelectedBook extends AppCompatActivity {
                                     String authorString = "Author: " + data.getString("author");
                                     String genreString = "Genre: " + data.getString("genre");
                                     String typeString = "Book Type: " + type;
+                                    float ratings = Float.parseFloat(data.getString("ratings"));
+                                    int total = Integer.parseInt(data.getString("totalNo"));
+                                    String stars;
+                                    if(total != 0) {
+                                        stars = "Book Rating: " + (ratings/total);
+                                        stars = stars.substring(0,14) + "/5";
+                                        bookRating.setText(stars);
+                                    }
+                                    else {
+                                        stars = "Book Rating: No rating yet";
+                                        bookRating.setText(stars);
+                                    }
 
                                     authorName.setText(authorString);
                                     genre.setText(genreString);
                                     summary.setText(response.getJSONObject("data").getString("summary"));
                                     bookType.setText(typeString);
+
 
                                     for(int i=0;i<data.getJSONArray("chapters").length();i++) {
                                         chapterArray.add(data.getJSONArray("chapters").getString(i));
@@ -212,14 +234,14 @@ public class SelectedBook extends AppCompatActivity {
         queue.add(jsonObjectRequest);
     }
 
-    public void addToUserRead(View view) throws UnsupportedEncodingException {
+    public void addToUserRead() throws UnsupportedEncodingException {
         String addToReadUrl = "http://ec2-65-0-74-93.ap-south-1.compute.amazonaws.com/api/books/read" + "/" + URLEncoder.encode(String.valueOf(i.getIntExtra("bookId", 999)), StandardCharsets.UTF_8.toString());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.POST, addToReadUrl, null,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                view.setEnabled(false);
+                                read.setEnabled(false);
                             }
                         }, new Response.ErrorListener() {
                     @Override
@@ -324,8 +346,6 @@ public class SelectedBook extends AppCompatActivity {
         String token = prefs.getString("token", "");
         String checkSubsUrl = "http://ec2-65-0-74-93.ap-south-1.compute.amazonaws.com/api/user/";
 
-        //Log.i("Profile page", "token = " + token);
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, checkSubsUrl, null,
                         new Response.Listener<JSONObject>() {
@@ -393,5 +413,85 @@ public class SelectedBook extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    public void ratingDialog() {
+        read.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                try {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SelectedBook.this);
+                    View layout= null;
+                    LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    layout = inflater.inflate(R.layout.rating, null);
+                    final RatingBar ratingBar = (RatingBar)layout.findViewById(R.id.ratingBar);
+                    builder.setTitle("Rate the book!!");
+                    builder.setMessage("Thank you for rating the book");
+                    builder.setMessage("Thank you for rating the book");
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Float value = ratingBar.getRating();
+                            try {
+                                addToUserRead();
+                                addRating(value);
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Toast.makeText(SelectedBook.this, "Book was not marked as read", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    builder.setCancelable(false);
+                    builder.setView(layout);
+                    builder.show();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void addRating(float value) throws UnsupportedEncodingException {
+        String addRatingUrl = "http://ec2-65-0-74-93.ap-south-1.compute.amazonaws.com/api/books/rating" + "/" + URLEncoder.encode(String.valueOf(i.getIntExtra("bookId", 999)), StandardCharsets.UTF_8.toString()) + "?rating=" + value;// to test locally use 10.0.2.2:4000
+        //Log.i("RatingUrl", addRatingUrl);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, addRatingUrl, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                read.setEnabled(false);
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+                        Log.i("Error: ", error.toString());
+                        if(error.toString().equals("com.android.volley.AuthFailureError")){
+                            Log.i("RequestError", error.toString());
+                        }
+                        else {
+                            Log.i("RatingError", error.toString());
+                            Toast.makeText(SelectedBook.this, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+        {
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                String headerToken = "Bearer "+ token;
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", headerToken);
+                return headers;
+            }
+        };
+        queue.add(jsonObjectRequest);
     }
 }
